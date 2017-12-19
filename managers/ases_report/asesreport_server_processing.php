@@ -74,9 +74,10 @@ if(isset($_POST['chk']) && isset($_POST['idinstancia'])){
                 "autoFill"=>"true",
                 "dom"=> "lfrtBip",
                 "buttons"=>array(
-                                array("extend"=>"pdf", "message"=>"Generando PDF"),
+                                "pdf",
                                 "csv",
-                                "excel"
+                                "excel",
+                                "copy",
                             )
         );
     header('Content-Type: application/json');
