@@ -47,13 +47,12 @@ function studentsWithLoses($instance){
 
 	$query = "SELECT estudiantes.*, COUNT(grades.id) as cantidad
 	FROM (SELECT user_m.id,SUBSTRING(user_m.username FROM 1 FOR 7) as codigo, user_m.firstname, user_m.lastname,user_m.username
-		 FROM  {user} user_m
-		 INNER JOIN {user_info_data} data ON data.userid = user_m.id
-		 INNER JOIN {user_info_field} field ON data.fieldid = field.id
-		 INNER JOIN {talentospilos_usuario} user_t ON data.data = CAST(user_t.id AS VARCHAR)
-		 INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
-		 INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
-		 WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO' AND field.shortname = 'idtalentos'
+            FROM {user} user_m
+            INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+            INNER JOIN {talentospilos_usuario} user_t ON extended.id_ases_user = user_t.id
+            INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
+            INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
+            WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO'
 	
 		INTERSECT
 	
@@ -168,10 +167,9 @@ function get_courses_for_report($user_id){
 		$intersect = " INTERSECT 
 		                SELECT user_m.id
 		                FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
-                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id AND field.shortname = 'idtalentos'
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
+                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id 
                         ";
     }
     elseif($user_role == "practicante_ps"){
@@ -179,11 +177,10 @@ function get_courses_for_report($user_id){
         $intersect = " INTERSECT 
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario 
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id AND field.shortname = 'idtalentos'
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id 
                         ";
     }
     elseif($user_role == "profesional_ps"){
@@ -191,12 +188,11 @@ function get_courses_for_report($user_id){
         $intersect = " INTERSECT 
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
                         INNER JOIN {talentospilos_user_rol} us_rol_prof ON us_rol.id_jefe = us_rol_prof.id_usuario
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id AND field.shortname = 'idtalentos'
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id
                         ";
     }	
 
@@ -207,13 +203,12 @@ function get_courses_for_report($user_id){
 		INNER JOIN {user_enrolments} enrols ON enrols.enrolid = role.id
 		WHERE SUBSTRING(curso.shortname FROM 15 FOR 6) = '$semestre' AND enrols.userid IN
 			(SELECT user_m.id
-				FROM  {user} user_m
-				INNER JOIN {user_info_data} data ON data.userid = user_m.id
-				INNER JOIN {user_info_field} field ON data.fieldid = field.id
-				INNER JOIN {talentospilos_usuario} user_t ON data.data = CAST(user_t.id AS VARCHAR)
-				INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
-				INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
-				WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO' AND field.shortname = 'idtalentos'
+                FROM {user} user_m
+                INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                INNER JOIN {talentospilos_usuario} user_t ON extended.id_ases_user = user_t.id
+                INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
+                INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
+                WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO'
 				$intersect			
 				)";
     $result = $DB->get_records_sql($query_courses);
@@ -273,10 +268,9 @@ function get_info_course_for_reports($course_id, $user_id){
 		$intersect = " INTERSECT 
 		                SELECT user_m.id
 		                FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
-                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id AND field.shortname = 'idtalentos'
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
+                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id
                         ";
     }
     elseif($user_role == "practicante_ps"){
@@ -284,11 +278,10 @@ function get_info_course_for_reports($course_id, $user_id){
         $intersect = " INTERSECT 
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario 
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id AND field.shortname = 'idtalentos'
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id 
                         ";
     }
     elseif($user_role == "profesional_ps"){
@@ -296,12 +289,11 @@ function get_info_course_for_reports($course_id, $user_id){
         $intersect = " INTERSECT 
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
-                        INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                        INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                        INNER JOIN {talentospilos_monitor_estud} mon_es ON data.data = CAST(mon_es.id_estudiante AS VARCHAR)
+                        INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                        INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
                         INNER JOIN {talentospilos_user_rol} us_rol_prof ON us_rol.id_jefe = us_rol_prof.id_usuario
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id AND field.shortname = 'idtalentos'
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id
                         ";
     }
 
@@ -331,15 +323,14 @@ function get_info_course_for_reports($course_id, $user_id){
                     INNER JOIN {enrol} enr ON enr.id = enrols.enrolid 
                     INNER JOIN {course} curso ON enr.courseid = curso.id  
                     WHERE curso.id= $course_id AND usuario.id IN (SELECT user_m.id
-                                                                 FROM  {user} user_m
-                                                                 INNER JOIN {user_info_data} data ON data.userid = user_m.id
-                                                                 INNER JOIN {user_info_field} field ON data.fieldid = field.id
-                                                                 INNER JOIN {talentospilos_usuario} user_t ON data.data = CAST(user_t.id AS VARCHAR)
-                                                                 INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante 
-                                                                 INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
-                                                                 WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO' AND field.shortname = 'idtalentos'
-                                                                 $intersect
-                                                                 )";
+                                                                FROM {user} user_m
+                                                                INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
+                                                                INNER JOIN {talentospilos_usuario} user_t ON extended.id_ases_user = user_t.id
+                                                                INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
+                                                                INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
+                                                                WHERE estados.nombre = 'ACTIVO/SEGUIMIENTO'
+                                                                $intersect
+                                                                )";
 
     $students = $DB->get_records_sql($query_students);
 
