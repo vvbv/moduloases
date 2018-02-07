@@ -1,16 +1,20 @@
-/**
- * @module block_ases/grade_categories
+ /**
+ * Grade categories management
+ * @module amd/src/grade_categories
+ * @author Camilo José Cruz rivera
+ * @copyright 2018 Camilo José Cruz Rivera <cruz.camilo@correounivalle.edu.co> 
+ * @license  http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 
-define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_ases/datatables.net-buttons', 'block_ases/buttons.flash', 'block_ases/jszip', 'block_ases/pdfmake', 'block_ases/buttons.html5', 'block_ases/buttons.print', 'block_ases/sweetalert', 'block_ases/jqueryui'], function ($, bootstrap, datatablesnet, datatablesnetbuttons, buttonsflash, jszip, pdfmake, buttonshtml5, buttonsprint, sweetalert, jqueryui) {
+define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables', 'block_ases/sweetalert', 'block_ases/jqueryui'], function ($, bootstrap, datatablesnet) {
 
     return {
 
         init: function () {
 
             $(document).ready(function () {
-                $("#teachers").DataTable();
+                $("#teachers").DataTable(); //Obtains teachers table 
             });
 
             $(document).on('click', '.desplegate', function () {
@@ -19,6 +23,7 @@ define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_as
                 var curso = '#curso_' + id;
                 var profe = '#profe_' + id;
 
+                //Changes the arrow symbol when something is deploying
                 if (parent.hasClass('cerrado')) {
                     $(this).children().removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-down');
                     $(curso).appendTo(profe);
@@ -31,12 +36,12 @@ define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_as
 
             });
 
+            //Redirects to a global_grade_book new tab when 'ir_curso' is clicked
             $(document).on('click', '.ir_curso', function () {
                 var id_curso = $(this).attr('id');
                 var url = 'global_grade_book.php' + location.search + '&id_course=' + id_curso;
                 window.open(url, '_blank');
             });
-
 
 
         }

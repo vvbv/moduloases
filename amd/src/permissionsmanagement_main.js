@@ -7,7 +7,7 @@
 /**
  * @module block_ases/permissionsmanagement_main
  */
-define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_ases/datatables.net-buttons', 'block_ases/buttons.flash', 'block_ases/jszip', 'block_ases/pdfmake', 'block_ases/buttons.html5', 'block_ases/buttons.print', 'block_ases/sweetalert', 'block_ases/select2'], function($,bootstrap, datatablesnet, datatablesnetbuttons, buttonsflash, jszip, pdfmake, buttonshtml5, buttonsprint, sweetalert, select2) {
+define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables', 'block_ases/sweetalert', 'block_ases/select2'], function($,bootstrap, datatables, sweetalert, select2) {
 
 
     return {
@@ -69,14 +69,14 @@ define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_as
                 dropdownAutoWidth: true,
             });
 
-
+            var instance;
             $(document).ready(function() {
                 //Cargar los datos de los roles creados en el select de rol-cmb
                 var informacionUrl = window.location.search.split("&");
                 for (var i = 0; i < informacionUrl.length; i++) {
                     var elemento = informacionUrl[i].split("=");
                     if (elemento[0] == "?instanceid" || elemento[0] == "instanceid") {
-                        var instance = elemento[1];
+                         instance = elemento[1];
                     }
                 }
                 load_actions();
@@ -290,7 +290,8 @@ define(['jquery', 'block_ases/bootstrap', 'block_ases/datatables.net', 'block_as
                         data: {
                             profile: id_profile,
                             actions: actions_array,
-                            function: "assign_role"
+                            function: "assign_role",
+                            instance : instance,
                         },
                         url: "../managers/ActionCreateAction.php",
                         async: false,

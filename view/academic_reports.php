@@ -33,6 +33,7 @@ include("../classes/output/academic_reports_page.php");
 include("../classes/output/renderer.php");
 require_once ('../managers/permissions_management/permissions_lib.php');
 require_once ('../managers/validate_profile_action.php');
+require_once ('../managers/menu_options.php');
 
 global $PAGE;
 
@@ -44,7 +45,7 @@ $blockid = required_param('instanceid', PARAM_INT);
 
 require_login($courseid, false);
 
-//se culta si la instancia ya está registrada
+//Instance is consulted for its registration
 if(!consult_instance($blockid)){
     header("Location: /blocks/ases/view/instanceconfiguration.php?courseid=$courseid&instanceid=$blockid");
 }
@@ -66,32 +67,39 @@ $PAGE->set_title($title);
 $PAGE->requires->css('/blocks/ases/style/styles_pilos.css', true);
 $PAGE->requires->css('/blocks/ases/style/simple-sidebar.css', true);
 $PAGE->requires->css('/blocks/ases/style/forms_pilos.css', true);
-$PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.foundation.css', true);
+// $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.foundation.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.foundation.min.css', true);
-$PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.jqueryui.css', true);
+// $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.jqueryui.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.jqueryui.min.css', true);
-$PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/jquery.dataTables.css', true);
+// $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/jquery.dataTables.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/jquery.dataTables.min.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/jquery.dataTables_themeroller.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/dataTables.tableTools.css', true);
 $PAGE->requires->css('/blocks/ases/js/DataTables-1.10.12/css/NewCSSExport/buttons.dataTables.min.css', true);
-$PAGE->requires->css('/blocks/ases/style/bootstrap_pilos.css', true);
+// $PAGE->requires->css('/blocks/ases/style/bootstrap_pilos.css', true);
 $PAGE->requires->css('/blocks/ases/style/bootstrap_pilos.min.css', true);
 $PAGE->requires->css('/blocks/ases/style/sweetalert.css', true);
 $PAGE->requires->css('/blocks/ases/style/sweetalert2.css', true);
 $PAGE->requires->css('/blocks/ases/style/round-about_pilos.css', true);
 $PAGE->requires->css('/blocks/ases/style/academic_reports_style.css', true);
+$PAGE->requires->css('/blocks/ases/style/side_menu_style.css', true);
+
+
 $PAGE->requires->js_call_amd('block_ases/academic_reports', 'init');
 
-//Se extrae la informacion a mostrar
+//Information to show
 $data = new stdClass;
 
-// Evalua si el rol del usuario tiene permisos en esta view.
+//Menu items are created
+$menu_option = create_menu_options($USER->id, $blockid, $courseid);
+
+//Evaluates if user role has permissions assigned on this view
 $actions = authenticate_user_view($USER->id, $blockid);
 $data = $actions;
 
 $data->tableStudents = getReportStudents($blockid);
-$data->tableCourses = get_courses_report();
+$data->tableCourses = get_courses_report($USER->id);
+$data->menu = $menu_option;
 
 $output = $PAGE->get_renderer('block_ases');
 
