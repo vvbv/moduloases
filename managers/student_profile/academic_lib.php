@@ -327,7 +327,7 @@ function make_html_semesters($semesters)
                 $descriptions .= "NO REGISTRA MATERIAS EN ESTE SEMESTRE";
             } else {
                 $descriptions .= "<div class = 'row'> <b>
-                <div class = 'col-md-3'>
+                <div class = 'col-md-4'>
                    MATERIA
                 </div>
              <div class = 'col-md-2'>
@@ -353,7 +353,7 @@ function make_html_semesters($semesters)
                     }
 
                     $descriptions .= "<div class = 'row'>
-                    <div class = 'col-md-3'>
+                    <div class = 'col-md-4'>
                         $materia->nombre_materia
                     </div>
                     <div class = 'col-md-2'>
