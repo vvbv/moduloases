@@ -97,20 +97,10 @@ if (isset($_FILES['file'])) {
             if (!is_null($associativeTitles['codigo_resolucion'])) {
 
                 $codigo_resolucion = $data[$associativeTitles['codigo_resolucion']];
-                if ($codigo_resolucion != '') {
-
-                    $id_resolucion = get_resolution_id_by_number($codigo_resolucion);
-
-                    if ($id_resolucion != false) {
-                        $isValidRow = false;
-                        array_push($detail_errors, [$line_count, $lc_wrongFile, ($associativeTitles['codigo_resolucion'] + 1), 'codigo_resolucion', 'Ya existe una resolución asociada al código: ' . $codigo_resolucion]);
-                    }
-
-                } else {
+                if ($codigo_resolucion == '') {
                     $isValidRow = false;
-                    array_push($detail_errors, [$line_count, $lc_wrongFile, ($associativeTitles['codigo_resolucion'] + 1), 'codigo_resolucion', 'El campo codigo_resolucion es obligatorio y se encuentra vacio']);
+                    array_push($detail_errors, [$line_count, $lc_wrongFile, ($associativeTitles['codigo_resolucion'] + 1), 'codigo_resolucion', 'El campo codigo_resolucion es obligatorio y se encuentra vacio']);          
                 }
-
             } else {
                 throw new MyException('La columna con el campo codigo_resolucion es obligatoria');
             }
@@ -168,12 +158,21 @@ if (isset($_FILES['file'])) {
                 throw new MyException('La columna con el campo total_girado es obligatoria');
             }
 
-            $has_credit_note = false;
+            //$has_credit_note = false;
             //validate nota_credito
             if (!is_null($associativeTitles['nota_credito'])) {
                 $credit_note = $data[$associativeTitles['nota_credito']];
                 if ($credit_note != "" and $credit_note != 'undefined') {
                     $has_credit_note = true;                    
+                }
+            }
+
+            //$has_number_students = false;
+            //validate cantidad_estudiantes
+            if (!is_null($associativeTitles['cantidad_estudiantes'])) {
+                $number_students = $data[$associativeTitles['cantidad_estudiantes']];
+                if ($number_students != "" and $number_students != 'undefined') {
+                    $has_number_students = true;                    
                 }
             }
 
@@ -185,7 +184,7 @@ if (isset($_FILES['file'])) {
             } else {
 
                 //Actualizar o crear un registro
-                $result = create_resolution($codigo_resolucion, $id_semestre, $fecha, $total_girado);
+                $result = create_resolution($codigo_resolucion, $id_semestre, $fecha, $total_girado, $credit_note, $number_students);
 
                 if (!$result) {
                     array_push($detail_errors, [$line_count, $lc_wrongFile, 'Error al registrar resolución', 'Error Servidor', 'Error del server registrando el historico']);
@@ -198,12 +197,22 @@ if (isset($_FILES['file'])) {
                     if ($has_credit_note) {
                      $insert_credit_note = update_resolution_credit_note($id_resolution, $credit_note);
                      
-                         if (!$insert_credit_note) {
-                             array_push($detail_erros, [$line_count, $lc_wrongFile, 'Error al nota crédito', 'Error Servidor', 'Error del server registrando la nota crédito']);
-                             array_push($wrong_rows, $data);
-                             $lc_wrongFile++;
-                         }
-                     }
+                        if (!$insert_credit_note) {
+                            array_push($detail_errors, [$line_count, $lc_wrongFile, 'Error al actualizar la nota crédito', 'Error Servidor', 'Error del server registrando la nota crédito']);
+                            array_push($wrong_rows, $data);
+                            $lc_wrongFile++;
+                        }
+                    }
+
+                    if ($has_number_students) {
+                        $insert_number_students = update_resolution_number_students($id_resolution, $number_students);
+                        
+                           if (!$insert_number_students) {
+                               array_push($detail_errors, [$line_count, $lc_wrongFile, 'Error al actualizar la cantidad de estudiantes', 'Error Servidor', 'Error del server registrando la cantidad de estudiantes']);
+                               array_push($wrong_rows, $data);
+                               $lc_wrongFile++;
+                           }
+                       }
                 }
             }
 
