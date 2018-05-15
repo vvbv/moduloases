@@ -31,12 +31,12 @@ require_once(__DIR__ . '/../../../../config.php');
 require_once $CFG->dirroot.'/blocks/ases/managers/lib/student_lib.php';
 require_once $CFG->dirroot.'/blocks/ases/managers/lib/lib.php';
 require_once $CFG->dirroot.'/blocks/ases/managers/grade_categories/grader_lib.php';
-require_once $CFG->dirroot.'/blocks/ases/managers/periods_management/periods_lib.php'; 
+require_once $CFG->dirroot.'/blocks/ases/managers/periods_management/periods_lib.php';
 
 
 /**
- * Gets all ASES students with items qualifications 'perdidos' 
- * 
+ * Gets all ASES students with items qualifications 'perdidos'
+ *
  * @see studentsWithLoses($instance)
  * @param $instance --> id instancia
  * @return array --> Array filled with students information
@@ -54,7 +54,7 @@ function studentsWithLoses($instance){
     }else if(substr($sem,4,1) == 'B'){
         $semestre = $año.'08';
 	}
-	
+
 
 	$query = "  SELECT     estudiantes.*,
                 Count(grades.id) AS cantidad
@@ -104,14 +104,14 @@ function studentsWithLoses($instance){
 
 	$result = $DB->get_records_sql($query);
 	return $result;
-}	
+}
 
 /**
- * Returns an HTML table containing all ASES students with items qualifications 'perdidos' 
- * 
+ * Returns an HTML table containing all ASES students with items qualifications 'perdidos'
+ *
  * @see getReportStudents($instance)
  * @param $instance --> id instancia
- * @return string -->  Html string with students information table 
+ * @return string -->  Html string with students information table
  */
 function getReportStudents($instance){
 
@@ -143,17 +143,17 @@ function getReportStudents($instance){
 
 /**
  * Returns a String containing all lost students grades
- * 
+ *
  * @see get_loses_by_student($instance)
  * @param $username --> username instancia
- * @return string --> HTML students information table 
+ * @return string --> HTML students information table
  */
 function get_loses_by_student($username){
 	global $DB;
 
 	$query = "SELECT items.id, curso.fullname, items.itemname, grades.finalgrade
 			  FROM {user} user_m INNER JOIN {grade_grades} grades ON user_m.id = grades.userid
-		INNER JOIN {grade_items} items ON grades.itemid = items.id 
+		INNER JOIN {grade_items} items ON grades.itemid = items.id
 		INNER JOIN {course} curso ON curso.id = items.courseid
 			  WHERE user_m.username = '$username' AND  grades.finalgrade < 3";
 
@@ -177,12 +177,12 @@ function get_loses_by_student($username){
  * Function that given a logged user id, returns an array of the courses with enrolled users in an instance.
  * @see get_courses_for_report($user_id)
  * @param $user_id -> ID of the logged user
- * @return array 
+ * @return array
  */
 
 function get_courses_for_report($user_id){
     global $DB;
-    
+
     $semestre_object = get_current_semester();
     $sem = $semestre_object->nombre;
     $id_semestre = $semestre_object->max;
@@ -196,12 +196,12 @@ function get_courses_for_report($user_id){
 	//print_r($semestre);
 
 	$intersect = "";
-	
+
 	$user_role = get_role_ases($user_id);
 
 	if($user_role == "monitor_ps"){
 
-		$intersect = " INTERSECT 
+		$intersect = " INTERSECT
 		                SELECT user_m.id
 		                FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
@@ -210,31 +210,31 @@ function get_courses_for_report($user_id){
                         ";
     }
     elseif($user_role == "practicante_ps"){
-        
-        $intersect = " INTERSECT 
+
+        $intersect = " INTERSECT
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                         INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
-                        INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario 
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id 
+                        INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id
                         ";
     }
     elseif($user_role == "profesional_ps"){
-        
-        $intersect = " INTERSECT 
+
+        $intersect = " INTERSECT
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                         INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
                         INNER JOIN {talentospilos_user_rol} us_rol_prof ON us_rol.id_jefe = us_rol_prof.id_usuario
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id 
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id
                         ";
-    }	
+    }
 
     $query_courses = "
-	SELECT DISTINCT curso.id, curso.fullname, curso.shortname          
+	SELECT DISTINCT curso.id, curso.fullname, curso.shortname
 		FROM {course} curso
 		INNER JOIN {enrol} ROLE ON curso.id = role.courseid
 		INNER JOIN {user_enrolments} enrols ON enrols.enrolid = role.id
@@ -245,11 +245,11 @@ function get_courses_for_report($user_id){
 				INNER JOIN {talentospilos_usuario} user_t ON extended.id_ases_user = user_t.id
 				INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
 				INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
-				WHERE estados.nombre = 'seguimiento' 
-				$intersect			
+				WHERE estados.nombre = 'seguimiento'
+				$intersect
 				)";
     $result = $DB->get_records_sql($query_courses);
-        
+
     return $result;
 }
 
@@ -257,7 +257,7 @@ function get_courses_for_report($user_id){
  * Function that given a logged user id, returns an array of the courses with enrolled users in an instance.
  * @see get_courses_for_report($user_id)
  * @param $user_id -> ID of the logged user
- * @return array 
+ * @return array
  */
 function get_courses_report($user_id){
 	$courses = get_courses_for_report($user_id);
@@ -268,7 +268,7 @@ function get_courses_report($user_id){
 								<th> Nombre </th>
 								<th> Nombre Completo</th>
 							</tr>
-						</thead>"; 
+						</thead>";
 
 	foreach ($courses as $course) {
 		$string_html.= "<tr class='curso_reporte' id='$course->id'>
@@ -282,7 +282,7 @@ function get_courses_report($user_id){
 
 }
 
-/** 
+/**
  * Function that returns a course with all its information given the course id and the id of the logged user
  * @param $course_id
  * @param $user_id
@@ -302,40 +302,40 @@ function get_info_course_for_reports($course_id, $user_id){
 
     if($user_role == "monitor_ps"){
 
-		$intersect = " INTERSECT 
+		$intersect = " INTERSECT
 		                SELECT user_m.id
 		                FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                         INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
-                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id 
+                        WHERE mon_es.id_semestre = $id_semestre AND mon_es.id_monitor = $user_id
                         ";
     }
     elseif($user_role == "practicante_ps"){
-        
-        $intersect = " INTERSECT 
+
+        $intersect = " INTERSECT
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                         INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
-                        INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario 
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id 
+                        INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol.id_jefe = $user_id
                         ";
     }
     elseif($user_role == "profesional_ps"){
-        
-        $intersect = " INTERSECT 
+
+        $intersect = " INTERSECT
                         SELECT DISTINCT user_m.id
                         FROM {user} user_m
                         INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                         INNER JOIN {talentospilos_monitor_estud} mon_es ON extended.id_ases_user = mon_es.id_estudiante
                         INNER JOIN {talentospilos_user_rol} us_rol ON mon_es.id_monitor = us_rol.id_usuario
                         INNER JOIN {talentospilos_user_rol} us_rol_prof ON us_rol.id_jefe = us_rol_prof.id_usuario
-                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id 
+                        WHERE mon_es.id_semestre = $id_semestre AND us_rol.id_semestre = $id_semestre AND us_rol_prof.id_semestre = $id_semestre AND us_rol_prof.id_jefe = $user_id
                         ";
     }
 
     $course = $DB->get_record_sql("SELECT fullname FROM {course} WHERE id = $course_id");
-    
+
     $query_teacher="SELECT concat_ws(' ',firstname,lastname) AS fullname
            FROM
              (SELECT usuario.firstname,
@@ -354,16 +354,16 @@ function get_info_course_for_reports($course_id, $user_id){
               ORDER BY userenrol.timecreated ASC
               LIMIT 1) AS subc";
     $professor = $DB->get_record_sql($query_teacher);
-    
+
     $query_students = "SELECT usuario.id, usuario.firstname, usuario.lastname, usuario.username
-                    FROM {user} usuario INNER JOIN {user_enrolments} enrols ON usuario.id = enrols.userid 
-                    INNER JOIN {enrol} enr ON enr.id = enrols.enrolid 
-                    INNER JOIN {course} curso ON enr.courseid = curso.id  
+                    FROM {user} usuario INNER JOIN {user_enrolments} enrols ON usuario.id = enrols.userid
+                    INNER JOIN {enrol} enr ON enr.id = enrols.enrolid
+                    INNER JOIN {course} curso ON enr.courseid = curso.id
                     WHERE curso.id= $course_id AND usuario.id IN (SELECT user_m.id
                                                                  FROM  {user} user_m
                                                                  INNER JOIN {talentospilos_user_extended} extended ON user_m.id = extended.id_moodle_user
                                                                  INNER JOIN {talentospilos_usuario} user_t ON extended.id_ases_user = user_t.id
-                                                                 INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante 
+                                                                 INNER JOIN {talentospilos_est_estadoases} estado_u ON user_t.id = estado_u.id_estudiante
                                                                  INNER JOIN {talentospilos_estados_ases} estados ON estados.id = estado_u.id_estado_ases
                                                                  WHERE estados.nombre = 'seguimiento'
                                                                  $intersect
@@ -379,7 +379,7 @@ function get_info_course_for_reports($course_id, $user_id){
     $curso->profesor = $professor->fullname;
     $curso->estudiantes = $students;
     $curso->header_categories = $header_categories;
-    
+
     return $curso;
 }
 

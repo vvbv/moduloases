@@ -122,6 +122,8 @@ function get_hours_per_days($init, $final,$monitorid)
     $register->total_minutes = 0;
     $final_array = [];
     $peer_tracking_v2 = get_report_by_date_2($init, $final,$monitorid);
+    var_dump(sort_dates($peer_tracking_v2));
+    die();
     $first_date;
     date_default_timezone_set("America/Bogota");
     
