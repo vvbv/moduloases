@@ -7,7 +7,6 @@ img.icon{
 }
 
 .gradeparent{
-    border: solid thin black;
     width: -moz-max-content;    /* Firefox/Gecko */
     width: -webkit-max-content; 
 }
@@ -21,6 +20,7 @@ img.icon{
     word-wrap: break-word;
 }
 
-.gradereport-grader-table{
+.gradereport-grader-table td, .gradereport-grader-table{
     margin: 10px 0px 10px 0px;
+    border: solid thin black;
 }
