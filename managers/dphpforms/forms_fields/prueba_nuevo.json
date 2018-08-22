@@ -1,0 +1,538 @@
+{
+    "datos_formulario": {
+        "nombre": "Prueba formulario",
+        "descripcion": "Formulario para prueba",
+        "method": "POST",
+        "action": "procesador.php",
+        "enctype": null,
+        "alias": "prueba_nuevo"
+    }, 
+    "preguntas": [
+      
+        {
+            "id_temporal": "cmp_0",
+            "enunciado": "CEDULA*",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "maxlength": "10",
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "id",
+                "placeholder": "Cedula",
+                "required": "true",
+                "local_alias": "cedula" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+         
+          {
+            "id_temporal": "cmp_1",
+            "enunciado": "NOMBRES*",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "name",
+                "placeholder": "Nombres",
+                "required": "true",
+                "local_alias": "nombres" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+      
+        {
+            "id_temporal": "cmp_2",
+            "enunciado": "APELLIDOS*",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "lastname",
+                "placeholder": "Apellidos",
+                "required": "true",
+                "local_alias": "apellidos" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+         
+         {
+            "id_temporal": "cmp_3",
+            "enunciado": "CORREO*",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "mail",
+                "placeholder": "E-mail",
+                "required": "true",
+                "local_alias": "correo" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+
+       
+         {
+            "id_temporal": "cmp_4",
+            "enunciado": "TELEFONO FIJO",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "tel",
+                "placeholder": "Telefono fijo",
+                "required": "true",
+                "local_alias": "telefono" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+        
+          {
+            "id_temporal": "cmp_5",
+            "enunciado": "TELEFONO MOVIL",
+            "tipo_campo": "TEXTFIELD",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "cel",
+                "placeholder": "Telefono movil",
+                "required": "true",
+                "local_alias": "celular" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        },
+
+        
+           {
+            "id_temporal": "cmp_6",
+            "enunciado": "OBSERVACIÓN",
+            "tipo_campo": "TEXTAREA",
+            "opciones_campo": null,
+            "atributos_campo": {
+                "class": "col-xs-6 col-sm-6 col-md-6 col-lg-6",
+                "name": "observation",
+                "placeholder": "Observacion",
+                "required": "true",
+                "local_alias": "observacion" 
+            },
+            "permisos_campo": [
+                {
+                    "rol": "administrativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "reportes",
+                    "permisos": []
+                },
+                {
+                    "rol": "profesional_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "monitor_ps",
+                    "permisos": []
+                },
+                {
+                    "rol": "estudiante_t",
+                    "permisos": []
+                },
+                {
+                    "rol": "sistemas",
+                    "permisos": [
+                        "lectura",
+                        "escritura"
+                    ]
+                },
+                {
+                    "rol": "practicante_ps",
+                    "permisos": [ ]
+                },
+                {
+                    "rol": "geografo",
+                    "permisos": []
+                },
+                {
+                    "rol": "academico",
+                    "permisos": []
+                },
+                {
+                    "rol": "director_prog",
+                    "permisos": []
+                },
+                {
+                    "rol": "geografico",
+                    "permisos": []
+                },
+                {
+                    "rol": "dir_socioeducativo",
+                    "permisos": []
+                },
+                {
+                    "rol": "financiero",
+                    "permisos": []
+                }
+            ]
+        }
+
+
+
+    ],
+    "disparadores": [],
+    "reglas":  [
+            {"id_temporal_campo_a": "cmp_4",
+            "id_temporal_campo_b": "cmp_5",
+            "regla": "BOUND"},
+            {"id_temporal_campo_a": "cmp_5",
+            "id_temporal_campo_b": "cmp_4",
+            "regla": "BOUND"}
+        ]  ,
+    "campos_busqueda": [
+        {"alias": "cedula_estudiante",
+            "id_campo": "cmp_0"},
+        {"alias": "nombre_estudiante",
+            "id_campo": "cmp_1"},
+        {"alias": "apellido_estudiante",
+            "id_campo": "cmp_2"},
+        {"alias": "correo_estudiante",
+            "id_campo": "cmp_3"}
+    ],
+    "actualizador_orden": []
+
+
+
+}
